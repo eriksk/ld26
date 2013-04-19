@@ -6,8 +6,8 @@ Releasy::Project.new do
 	version "0.0.1"
   verbose # Can be removed if you don't want to see all build messages.
 
-  executable "bin/my_application.rb"
-	files "*" #, "lib/**/*.rb", "config/**/*.yml", "content/**/*.*"
+  executable "lib/main.rb"
+	files ["lib/**/*.rb", "config/**/*.rb", "content/**/*.*"]
 	exposed_files "README.md"
 	add_link "http://skoggy.com", "Game site"
 	exclude_encoding # Applications that don't use advanced encoding (e.g. Japanese characters) can save build size with this.
