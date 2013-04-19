@@ -26,15 +26,15 @@ Releasy::Project.new do
 	
 	# If building on a Windows machine, :windows_folder and/or :windows_installer are recommended.
 	add_build :windows_folder do
-		icon "media/icon.ico"
+		icon "content/icon.ico"
 		executable_type :windows # Assuming you don't want it to run with a console window.
 		add_package :exe # Windows self-extracting archive.
 	end
 
 	add_build :windows_installer do
-		icon "media/icon.ico"
-		start_menu_group "Spooner Games"
-		readme "README.html" # User asked if they want to view readme after install.
+		icon "content/icon.ico"
+		start_menu_group "Skoggy"
+		readme "README.md" # User asked if they want to view readme after install.
 		license "LICENSE.txt" # User asked to read this and confirm before installing.
 		executable_type :windows # Assuming you don't want it to run with a console window.
 		add_package :zip
