@@ -7,10 +7,19 @@ module LD26
 			super WIDTH, HEIGHT, FULLSCREEN
 			self.caption = TITLE
       @game = Game.new self
+      @last_frame = Gosu::milliseconds
+      @dt = 0.0
+      @fps = 0.0
+      @update_fps = 0.0
+      @font = Gosu::Font.new self, Gosu::default_font_name, 24
 		end
 
     def load_image name
       Gosu::Image.new self, "content/gfx/#{name}.png"
+    end
+
+    def load_tiles name, width, height
+      Gosu::Image.load_tiles self, "content/gfx/#{name}.png", width, height, true
     end
 
 		def button_down(id)
@@ -20,14 +29,28 @@ module LD26
 			end
 		end
 
+    def update_delta
+      this_frame = Gosu::milliseconds
+      @dt = this_frame - @last_frame
+      @last_frame = this_frame
+      @update_fps -= @dt
+      if @update_fps < 0.0
+        @fps = 1000.0 / @dt
+        @update_fps = 500.0
+      end
+    end
+
 		def update
-			dt = 16.0
-      @game.update dt
+      update_delta
+      @game.update @dt
 		end
 
 		def draw
       clear
       @game.draw
+      if DEBUG
+        @font.draw("FPS: #{@fps.to_i}", 16, 16, 0, 1, 1, Gosu::Color::BLACK)
+      end
 		end
 
     def clear
