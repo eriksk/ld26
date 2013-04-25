@@ -1,5 +1,5 @@
 require 'gosu'
-require_relative '../config/config'
+require_relative 'config'
 
 module LD26
 	class GameWindow < Gosu::Window

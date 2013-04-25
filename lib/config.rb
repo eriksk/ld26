@@ -19,13 +19,14 @@ def log message
 end
 
 def req file
-  require_relative "../lib/#{file}"
+  require_relative "#{file}"
 end
 def req_dir d
-	dir = "lib/#{d}/*"
+	dir = "#{d}/*"
 	Dir.glob(dir).each{ |f| 
 		filename = File.basename(f)
-		require_relative "../lib/#{d}/#{filename}"
+		p filename
+		require_relative "#{d}/#{filename}"
 	}
 end
 

@@ -7,7 +7,7 @@ Releasy::Project.new do
   verbose # Can be removed if you don't want to see all build messages.
 
   executable "lib/main.rb"
-	files ["lib/**/*.rb", "config/**/*.rb", "content/**/*.*"]
+	files ["lib/**/*.*"]
 	exposed_files "README.md"
 	add_link "http://skoggy.com", "Game site"
 	exclude_encoding # Applications that don't use advanced encoding (e.g. Japanese characters) can save build size with this.
