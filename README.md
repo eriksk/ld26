@@ -5,13 +5,13 @@
 To run from source with bundler just clone the repo and run following commands
 
 <pre>
-  $ bundle install
+$ bundle install
 </pre>
 
 Tested with Ruby (MRI) 1.9.3
 
 <pre>
-  $ ./run
+$ ./run
 </pre>
 
 ## Language
