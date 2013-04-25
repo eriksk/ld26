@@ -6,12 +6,11 @@ Releasy::Project.new do
 	version "0.0.1"
   verbose # Can be removed if you don't want to see all build messages.
 
-  executable "lib/main.rb"
+  executable "lib/ld26.rb"
 	files ["lib/**/*.*"]
 	exposed_files "README.md"
 	add_link "http://skoggy.com", "Game site"
-	#exclude_encoding # Applications that don't use advanced encoding (e.g. Japanese characters) can save build size with this.
-	# we need to include encoding for json
+	exclude_encoding # Applications that don't use advanced encoding (e.g. Japanese characters) can save build size with this.
 	
 	# Create a variety of releases, for all platforms.
 	add_build :osx_app do
@@ -27,13 +26,13 @@ Releasy::Project.new do
 	
 	# If building on a Windows machine, :windows_folder and/or :windows_installer are recommended.
 	add_build :windows_folder do
-		icon "content/icon.ico"
+		#icon "content/icon.ico"
 		executable_type :windows # Assuming you don't want it to run with a console window.
 		add_package :exe # Windows self-extracting archive.
 	end
 
 	add_build :windows_installer do
-		icon "content/icon.ico"
+		#icon "content/icon.ico"
 		start_menu_group "Skoggy"
 		readme "README.md" # User asked if they want to view readme after install.
 		license "LICENSE.txt" # User asked to read this and confirm before installing.
