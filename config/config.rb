@@ -30,6 +30,7 @@ def req_dir d
 end
 
 req "vec2"
+req "camera"
 req "helpers"
 req "entity"
 req "scene"
