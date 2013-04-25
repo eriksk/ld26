@@ -7,7 +7,6 @@ module Tmx
 			@name = name
 			@opacity = opacity
 			@properties = properties
-			p opacity
 			@color = LD26.color(255, 255, 255, (255.0 * opacity).to_i)
 		end
 
