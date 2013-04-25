@@ -10,7 +10,7 @@ Releasy::Project.new do
   executable "lib/ld26.rb"
 	files ["lib/**/*.*"]
 	exposed_files "README.md"
-	add_link "http://skoggy.com", "Game site"
+	add_link "http://skoggy.se/games/9", "Game site"
 	exclude_encoding # Applications that don't use advanced encoding (e.g. Japanese characters) can save build size with this.
 	
 	# Create a variety of releases, for all platforms.
