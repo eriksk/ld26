@@ -12,8 +12,26 @@ module LD26
   ]
 end
 
+def log message
+	if LD26::DEBUG
+		puts "#{caller[0][/lib\/.*/]}: #{message}" # puts calling class
+	end
+end
+
 def req file
   require_relative "../lib/#{file}"
 end
+def req_dir d
+	dir = "lib/#{d}/*"
+	Dir.glob(dir).each{ |f| 
+		filename = File.basename(f)
+		require_relative "../lib/#{d}/#{filename}"
+	}
+end
 
+req "vec2"
+req "helpers"
+req "entity"
+req "scene"
+req_dir "scenes"
 req "game"
