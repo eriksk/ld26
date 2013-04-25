@@ -5,7 +5,7 @@ module Tmx
 
 		def self.load filename, window
 			json = nil
-			File.open("content/maps/#{filename}.json", "r") do |f|
+			File.open("#{LD26::CONTENT_ROOT}/maps/#{filename}.json", "r") do |f|
 				json = JSON.parse(f.read) 
 			end
 			create_map_from_json json, window

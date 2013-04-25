@@ -4,6 +4,7 @@ module LD26
 	FULLSCREEN = false
 	TITLE = "Ludum Dare 26 (Skoggy)"
   DEBUG = true
+	CONTENT_ROOT = "#{File.dirname(__FILE__)}/content"
   CLEAR_COLORS = [
     Gosu::Color::WHITE,
     Gosu::Color::WHITE,
@@ -22,10 +23,9 @@ def req file
   require_relative "#{file}"
 end
 def req_dir d
-	dir = "#{d}/*"
+	dir = "#{File.dirname(__FILE__)}/#{d}/*"
 	Dir.glob(dir).each{ |f| 
 		filename = File.basename(f)
-		p filename
 		require_relative "#{d}/#{filename}"
 	}
 end

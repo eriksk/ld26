@@ -15,15 +15,15 @@ module LD26
 		end
 
     def load_image name
-      Gosu::Image.new self, "content/gfx/#{name}.png"
+      Gosu::Image.new self, "#{CONTENT_ROOT}/gfx/#{name}.png"
     end
 
     def load_tiles name, width, height
-      Gosu::Image.load_tiles self, "content/gfx/#{name}.png", width, height, true
+      Gosu::Image.load_tiles self, "#{CONTENT_ROOT}/gfx/#{name}.png", width, height, true
     end
 
 		def load_font size
-			Gosu::Font.new self, "content/fonts/font.ttf", size
+			Gosu::Font.new self, "#{CONTENT_ROOT}/fonts/font.ttf", size
 		end
 
 		def button_down(id)
