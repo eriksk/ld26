@@ -1,5 +1,4 @@
-require 'crack'
-require 'crack/json'
+require 'json'
 
 module Tmx
 	class Loader
@@ -7,7 +6,7 @@ module Tmx
 		def self.load filename, window
 			json = nil
 			File.open("#{LD26::CONTENT_ROOT}/maps/#{filename}.json", "r") do |f|
-				json = Crack::JSON.parse(f.read) 
+				json = JSON.load(f.read) 
 			end
 			create_map_from_json json, window
 		end

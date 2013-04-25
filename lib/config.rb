@@ -33,6 +33,7 @@ end
 req "vec2"
 req "camera"
 req "helpers"
+req "animation"
 req "entity"
 req "text"
 req "scene"
