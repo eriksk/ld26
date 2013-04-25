@@ -4,7 +4,7 @@ module LD26
     def initialize window
       @window = window
 			@scenes = []
-			push_scene SkoggySplashScene.new self
+			push_scene SplashScene.new self
     end
 
 		def pop_scene

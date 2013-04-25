@@ -18,7 +18,7 @@ module LD26
 
 			if @time > @duration
 				@game.pop_scene
-				@game.push_scene GameScene.new @game
+				@game.push_scene SkoggySplashScene.new @game
 			end
 		end
 
