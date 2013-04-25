@@ -34,4 +34,10 @@ req "helpers"
 req "entity"
 req "scene"
 req_dir "scenes"
+
+# tmx
+req "tmx/layer"
+req "tmx/map"
+req "tmx/tmx_loader"
+
 req "game"
