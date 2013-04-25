@@ -10,7 +10,8 @@ Releasy::Project.new do
 	files ["lib/**/*.*"]
 	exposed_files "README.md"
 	add_link "http://skoggy.com", "Game site"
-	exclude_encoding # Applications that don't use advanced encoding (e.g. Japanese characters) can save build size with this.
+	#exclude_encoding # Applications that don't use advanced encoding (e.g. Japanese characters) can save build size with this.
+	# we need to include encoding for json
 	
 	# Create a variety of releases, for all platforms.
 	add_build :osx_app do
