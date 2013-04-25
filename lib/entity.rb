@@ -1,6 +1,6 @@
 module LD26
 	class Entity
-		attr_accessor :image, :position, :origin, :velocity, :rotation, :scale
+		attr_accessor :image, :position, :origin, :velocity, :rotation, :scale, :color
 
 		def initialize image
 			@image = image

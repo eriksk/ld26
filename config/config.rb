@@ -33,6 +33,7 @@ req "vec2"
 req "camera"
 req "helpers"
 req "entity"
+req "text"
 req "scene"
 req_dir "scenes"
 

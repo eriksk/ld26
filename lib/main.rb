@@ -22,6 +22,10 @@ module LD26
       Gosu::Image.load_tiles self, "content/gfx/#{name}.png", width, height, true
     end
 
+		def load_font size
+			Gosu::Font.new self, "content/fonts/font.ttf", size
+		end
+
 		def button_down(id)
 			case id
 			when Gosu::KbEscape
