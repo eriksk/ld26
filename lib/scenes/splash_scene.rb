@@ -12,8 +12,11 @@ module LD26
 
 		def update dt
 			@time += dt
+
 			if @time < @duration / 2.0
 				@logo.position.y = LD26.qlerp(-1024, HEIGHT / 2.0, @time / (@duration / 2.0))
+			else
+				@logo.color.alpha = LD26.qlerp(0, 255, (@duration - @time) / (@duration / 2.0))
 			end
 
 			if @time > @duration
