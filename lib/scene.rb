@@ -5,6 +5,10 @@ module LD26
 			@game = game
 		end
 
+		def window
+			@game.window
+		end
+
 		def update dt
 		end
 

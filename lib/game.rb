@@ -5,21 +5,11 @@ module LD26
       @window = window
 			@scenes = []
 			push_scene SplashScene.new self
-=begin
-      @tileset = window.load_tiles "tileset", 16, 16
-      @grid = []
-      size = 32
-      size.times do |i|
-        @grid << []
-        size.times do |j|
-          @grid[i] << (rand() * 6).to_i
-        end
-      end
-=end
     end
 
 		def pop_scene
-			@scenes.delete(@scenes.size - 1)
+			log "Popping scene: #{@scenes.last.class}"
+			@scenes.delete_at(@scenes.size - 1)
 		end
 
 		def push_scene scene
@@ -43,13 +33,6 @@ module LD26
 			unless @scenes.empty?
 				current_scene.draw
 			end
-=begin
-      @grid.size.times do |i|
-        @grid[i].size.times do |j|
-          @tileset[@grid[i][j]].draw(i * 16, j * 16, 0)
-        end
-      end
-=end
     end
   end
 end
