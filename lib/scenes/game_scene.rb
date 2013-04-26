@@ -11,7 +11,7 @@ module LD26
 				@game.pop_scene
 			end
 			@map.update dt
-			@cam.move -WIDTH / 2.0, 0
+			@cam.move -WIDTH / 2.0, -100
 			@cam.update dt
 		end
 
