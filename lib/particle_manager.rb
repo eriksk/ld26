@@ -1,5 +1,6 @@
 module LD26
 	class ParticleManager
+		attr_accessor :count
 		def initialize window, images, capacity = 512
 			@window = window
 			@images = images

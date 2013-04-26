@@ -29,6 +29,6 @@ $ ./run
 * Linux
 
 ## Tools
-* Pixen
-* as3sfxr
+* Pixen/PyxelEdit
+* bfxr/Audacity
 * Tiled
