@@ -1,15 +1,17 @@
 module LD26
 	class Camera
+		attr_accessor :scale
 		def initialize window
 			@window = window
 			@target = Vec2.new
 			@origin = Vec2.new WIDTH / 2.0, HEIGHT / 2.0
 			@position = Vec2.new -@origin.x, -@origin.y
-			@speed = 0.05
+			@scale = 1.5
+			@speed = 1.0 # 0.05
 		end
 
 		def move x, y
-			@target.x, @target.y = x, y
+			@target.x, @target.y = -x, -y
 		end
 
 		def update dt
@@ -19,7 +21,9 @@ module LD26
 
 		def translate &render_code
 			@window.translate(-@position.x - @origin.x, -@position.y - @origin.y) do
-				render_code.call()
+				@window.scale(@scale, @scale, @origin.x, @origin.y) do
+					render_code.call()
+				end
 			end
 		end
 	end
