@@ -20,6 +20,7 @@ module LD26
 			@pixel.x = (WIDTH / 2.0) + Math::cos(@timer * 0.001) * 300
 			@pixel.y = (HEIGHT / 2.0) + Math::sin(@timer * 0.001) * 300
 			@cam.scale = 1.0 + Math::cos(@timer * 0.001)
+			@cam.rotation += 0.001 * dt
 		end
 
 		def draw
