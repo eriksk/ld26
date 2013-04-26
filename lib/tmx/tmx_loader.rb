@@ -21,7 +21,7 @@ module Tmx
 			images = []
 			j["tilesets"].each do |ts|
 				img_file = ts["image"].match(/[a-zA-Z_0-9-]*.png/).to_s.gsub(".png", "")
-				images << window.load_tiles(img_file, 32, 32)
+				images << window.load_tiles(img_file, tile_width, tile_height)
 			end
 			
 			layers = []

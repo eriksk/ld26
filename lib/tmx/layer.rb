@@ -14,11 +14,13 @@ module Tmx
 		end
 
 		def draw images, tile_width, tile_height
-			@data.each_with_index do |cell, index|
-				unless cell == 0
-					col = index % @width
-					row = index / @height
-					images[cell - 1].draw(col * tile_width, row * tile_height, 0, 1, 1, @color)
+			images.size
+			@width.times do |col|
+				@height.times do |row|
+					cell = @data[col + row * @width] - 1
+					unless cell == -1
+						images[cell].draw(col * tile_width, row * tile_height, 0, 1, 1, @color)
+					end
 				end
 			end
 		end
