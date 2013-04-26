@@ -16,7 +16,7 @@ Releasy::Project.new do
 	# Create a variety of releases, for all platforms.
 	add_build :osx_app do
 		url "se.skoggy.ld26"
-		wrapper "wrappers/gosu-mac-wrapper-0.7.47.tar.gz" # Assuming this is where you downloaded this file.
+		wrapper "wrappers/gosu-mac-wrapper-0.7.44.tar.gz" # Assuming this is where you downloaded this file.
 		#icon "media/icon.icns"
 		add_package :tar_gz
 	end

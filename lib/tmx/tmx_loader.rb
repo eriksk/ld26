@@ -1,12 +1,10 @@
-require 'json'
-
 module Tmx
 	class Loader
 
 		def self.load filename, window
 			json = nil
 			File.open("#{LD26::CONTENT_ROOT}/maps/#{filename}.json", "r") do |f|
-				json = JSON.load(f.read) 
+				json = LD26::JsonParser.parse(f.read) 
 			end
 			create_map_from_json json, window
 		end
