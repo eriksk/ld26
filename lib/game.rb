@@ -4,8 +4,8 @@ module LD26
     def initialize window
       @window = window
 			@scenes = []
-			#push_scene LD26::SplashScene.new self
-			push_scene LD26::GameScene.new self
+			push_scene LD26::SplashScene.new self
+			#push_scene LD26::GameScene.new self
     end
 
 		def pop_scene

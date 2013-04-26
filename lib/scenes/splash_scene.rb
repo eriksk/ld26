@@ -19,10 +19,11 @@ module LD26
 				@logo.color.alpha = LD26.qlerp(0, 255, (@duration - @time) / (@duration / 2.0))
 			end
 
-			if @time > @duration
+			if @time > @duration || (!window.button_down?(Gosu::KbSpace) & @space_down)
 				@game.pop_scene
 				@game.push_scene SkoggySplashScene.new @game
 			end
+			@space_down = window.button_down?(Gosu::KbSpace)
 		end
 
 		def draw

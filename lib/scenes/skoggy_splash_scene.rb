@@ -25,10 +25,11 @@ module LD26
 
 			@text.update dt
 			@text_presents.update dt
-			if @current > @duration
+			if @current > @duration || (!window.button_down?(Gosu::KbSpace) & @space_down)
 				@game.pop_scene
 				@game.push_scene GameScene.new @game
 			end
+			@space_down = window.button_down?(Gosu::KbSpace)
 		end
 
 		def draw

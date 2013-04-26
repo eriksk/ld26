@@ -29,7 +29,7 @@ module Tmx
 				layers << Layer.new(l["data"], l["width"], l["height"], l["name"], l["opacity"], l["properties"])
 			end
 
-			Map.new(layers, width, height, properties, images, tile_width, tile_height)
+			Map.new(window, layers, width, height, properties, images, tile_width, tile_height)
 		end
 	end
 end
