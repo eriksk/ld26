@@ -28,7 +28,9 @@ module Tmx
 		end
 
 		def draw 
-			@pre_rendered_image.draw(0, 0, 0)
+			unless @properties && @properties["hidden"]
+				@pre_rendered_image.draw(0, 0, 0)
+			end
 		end
 	end
 end
