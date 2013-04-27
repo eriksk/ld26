@@ -4,9 +4,12 @@ module LD26
 			super game
       @filter = window.load_image("filter")
 			@cam = Camera.new window
+      @audio_manager = AudioManager.new window
+      @audio_manager.play
+      @fade_color = LD26.color()
       @font = window.load_font 64
       @state = :loading
-      @current_level = 2
+      @current_level = 0
       @last_level = 3
       next_level
 		end
@@ -23,15 +26,16 @@ module LD26
       unless @current_level > @last_level
         load_level
       else
+        @audio_manager.stop
         @game.pop_scene
-        @game.push_scene SplashScene.new @game
       end
     end
 
     def load_level
       @map = Tmx::Loader.load "map_#{@current_level}", game.window
-      @intro_text = Text.new window, 128, @map.properties["name"]
-      @intro_current = 0.0
+      @intro_text = Text.new(window, 64, @map.properties["name"])
+        .set_position(WIDTH / 2.0, HEIGHT * 0.5)
+      @intro_text.color = LD26.color(0, 0, 0, 255)
       @intro_duration = 3000
       @start_pos = @map.get_start
       @player = CharacterFactory.create(window, :player)
@@ -60,7 +64,10 @@ module LD26
     end
 
     def die
-      load_level
+      @player.set_position(@start_pos.x, @start_pos.y)
+      @player.velocity.x = 0.0
+      @player.velocity.y = 0.0
+      @player.grounded = false
     end
 
     def fade_enemies
@@ -91,10 +98,14 @@ module LD26
           die
           return
         end
+        @intro_duration -= dt
         # spawn_rain
         @particle_manager.update dt
 			  @cam.move @player.position.x, @player.position.y
         @cam.update dt
+        if @fade_color.alpha > 0.0 && @intro_duration <= 0.0
+          @fade_color.alpha -= 0.05 * dt
+        end
       end
 		end
 
@@ -121,6 +132,7 @@ module LD26
       clear()
       if @state == :loading
         @font.draw("Loading...", WIDTH / 2.0, HEIGHT / 2.0, 0, 1.0, 1.0, Gosu::Color::BLACK)
+        @fade_color.alpha = 255
       elsif @state == :done_loading
       else
 			  @map.draw @cam
@@ -142,7 +154,17 @@ module LD26
           end
 			  end
         #@font.draw("Grounded: #{@player.grounded}", 16, 32, 0, 1.0, 1.0, Gosu::Color::BLACK)
-        #@filter.draw(0, 0, 0)
+        window.draw_quad(
+          0, 0, @fade_color,
+          WIDTH, 0, @fade_color,
+          WIDTH, HEIGHT, @fade_color,
+          0, HEIGHT, @fade_color
+        )
+        if @intro_duration >= 0.0
+          @intro_text.color.alpha = LD26.qlerp(255, 0, (3000.0 - @intro_duration) / 3000.0)
+          @intro_text.draw
+        end
+        @filter.draw(0, 0, 0)
       end
 		end
 

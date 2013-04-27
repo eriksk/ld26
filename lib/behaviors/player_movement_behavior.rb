@@ -13,7 +13,7 @@ module LD26
       end
 
       if entity.grounded
-        if @window.button_down?(Gosu::KbUp)
+        if @window.button_down?(Gosu::KbSpace)
           entity.jump dt
         end
       else

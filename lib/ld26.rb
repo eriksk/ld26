@@ -14,6 +14,10 @@ module LD26
       @font = Gosu::Font.new self, Gosu::default_font_name, 24
 		end
 
+    def load_song name
+      Gosu::Song.new self, "#{CONTENT_ROOT}/audio/#{name}.mp3"
+    end
+
     def load_image name
       Gosu::Image.new self, "#{CONTENT_ROOT}/gfx/#{name}.png"
     end

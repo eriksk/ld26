@@ -7,7 +7,7 @@ module LD26
 			@origin = Vec2.new WIDTH / 2.0, HEIGHT / 2.0
 			@position = Vec2.new -@origin.x, -@origin.y
 			@scale = 1.0
-			@speed = 0.05
+			@speed = 0.005
 			@rotation = 0.0
 		end
 

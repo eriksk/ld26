@@ -3,7 +3,7 @@ module LD26
 	HEIGHT = 720
 	FULLSCREEN = false
 	TITLE = "Ludum Dare 26 (Skoggy)"
-  DEBUG = true
+  DEBUG = false
 	CONTENT_ROOT = "#{File.dirname(__FILE__)}/content"
   CLEAR_COLORS = [
     Gosu::Color::WHITE,
@@ -34,6 +34,7 @@ req "json_parser"
 req "vec2"
 req "rectangle"
 req "camera"
+req "audio_manager"
 req "helpers"
 req "animation"
 req "particle"
