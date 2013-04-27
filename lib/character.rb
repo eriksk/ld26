@@ -14,7 +14,7 @@ module LD26
       }
       @grounded = false
       @speed = 0.05
-      @max_speed = 0.2
+      @max_speed = 0.1
       @current_anim = nil
       set_anim :idle
     end

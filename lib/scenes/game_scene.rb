@@ -6,8 +6,8 @@ module LD26
 			@cam = Camera.new window
       @font = window.load_font 64
       @state = :loading
-      @current_level = 0
-      @last_level = 2
+      @current_level = 2
+      @last_level = 3
       next_level
 		end
 
@@ -30,6 +30,9 @@ module LD26
 
     def load_level
       @map = Tmx::Loader.load "map_#{@current_level}", game.window
+      @intro_text = Text.new window, 128, @map.properties["name"]
+      @intro_current = 0.0
+      @intro_duration = 3000
       @start_pos = @map.get_start
       @player = CharacterFactory.create(window, :player)
         .set_position(@start_pos.x, @start_pos.y)
@@ -60,6 +63,18 @@ module LD26
       load_level
     end
 
+    def fade_enemies
+      min_distance = 196
+      @enemies.each do |e|
+        distance = Vec2.distance(@player.position, e.position)
+        if distance < min_distance
+          e.color.alpha = LD26.qlerp(255, 0, distance / min_distance)
+        else
+          e.color.alpha = 0.0
+        end
+      end
+    end
+
 		def update dt
       if @state == :loading
       elsif @state == :done_loading
@@ -71,6 +86,7 @@ module LD26
 			  @map.update dt
         @characters.each{ |c| c.update dt, @map }
         @enemies.each{ |e| e.update dt, @map }
+        fade_enemies()
         if collide_enemies?
           die
           return

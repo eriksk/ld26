@@ -1,6 +1,6 @@
 module Tmx
 	class Map
-		attr_accessor :images, :layers, :width, :height, :tile_width, :tile_height
+		attr_accessor :images, :layers, :width, :height, :tile_width, :tile_height, :properties
 		def initialize window, layers, width, height, properties, tileset, tile_width, tile_height
 			@layers = layers
 			@width = width
@@ -39,26 +39,31 @@ module Tmx
       LD26::Vec2.new(x, y)
     end
 
+    def get_cell col, row, fade = true
+      @layers.each do |l|
+        l.get_cell col, row
+      end
+      @layers.first.get_cell col, row
+    end
+
     def collide_x p
-      l = @layers.first
       col = (p.left / 16.0).to_i
       row = (p.position.y / 16.0).to_i
-      if l.get_cell(col, row) > 0
+      if get_cell(col, row) > 0
         p.position.x = ((p.position.x / 16.0).to_i * 16.0) + 8.0
         p.velocity.x = 0.0
       end
       col = (p.right / 16.0).to_i
-      if l.get_cell(col, row) > 0
+      if get_cell(col, row) > 0
         p.position.x = ((p.position.x / 16.0).to_i * 16.0) + 8
         p.velocity.x = 0.0
       end
     end
 
     def collide_y p
-      l = @layers.first
       col = (p.position.x / 16.0).to_i
       row = ((p.position.y + p.image.height / 2.0) / 16.0).to_i
-      if l.get_cell(col, row) > 0
+      if get_cell(col, row) > 0
         if p.grounded
         else
           p.land
@@ -66,7 +71,7 @@ module Tmx
         end
       end
       row = ((p.position.y - p.image.height / 2.0) / 16.0).to_i
-      if l.get_cell(col, row) > 0
+      if get_cell(col, row) > 0
         if p.grounded
         else
           p.velocity.y = 0.0
@@ -76,7 +81,7 @@ module Tmx
       # check for ground
       if p.grounded
         row = ((p.position.y + p.image.height + 1 / 2.0) / 16.0).to_i
-        if l.get_cell(col, row) == 0
+        if get_cell(col, row) == 0
           p.fall_off
         end
       end

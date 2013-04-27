@@ -91,7 +91,7 @@ module Tmx
             touch = @touches[col][row]
             if touch.state != :none
               cell = @data[col + row * @width] - 1
-              color.alpha = touch.alpha
+              color.alpha = touch.alpha * @opacity
               @images[cell].draw(col * 16, row * 16, 0, 1.0, 1.0, color)
             end
           end
