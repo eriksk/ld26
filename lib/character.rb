@@ -3,6 +3,7 @@ module LD26
     attr_accessor :grounded
     
     FRICTION = 0.002
+    GRAVITY = 0.0007
     
     def initialize images
       super images.first
@@ -71,9 +72,8 @@ module LD26
     end
 
     def apply_gravity dt
-      gravity  = 0.00098
       unless @grounded
-        @velocity.y += gravity * dt
+        @velocity.y += GRAVITY * dt
       end
     end
 

@@ -5,7 +5,8 @@ module LD26
       @filter = window.load_image("filter")
 			@cam = Camera.new window
       @font = window.load_font 64
-      @current_level = 1
+      @state = :loading
+      @current_level = 0
       @last_level = 2
       next_level
 		end
@@ -17,6 +18,7 @@ module LD26
     end
 
     def next_level
+      @state = :loading
       @current_level += 1
       unless @current_level > @last_level
         load_level
@@ -27,11 +29,12 @@ module LD26
     end
 
     def load_level
-			@map = Tmx::Loader.load "map_#{@current_level}", game.window
+      @map = Tmx::Loader.load "map_#{@current_level}", game.window
       @start_pos = @map.get_start
       @player = CharacterFactory.create(window, :player)
         .set_position(@start_pos.x, @start_pos.y)
-      @player.grounded = true
+      @player.grounded = false
+      @player.velocity.y = 0.0
       @end = @map.get_end_cell
       @characters = []
       @characters << @player
@@ -50,6 +53,7 @@ module LD26
       @map.clear_enemy_data
       @map.pre_render window
       @cam.set @player.position.x, @player.position.y
+      @state = :done_loading
     end
 
     def die
@@ -57,20 +61,25 @@ module LD26
     end
 
 		def update dt
-			if reached_end?
-        next_level
-			end
-			@map.update dt
-      @characters.each{ |c| c.update dt, @map }
-      @enemies.each{ |e| e.update dt, @map }
-      if collide_enemies?
-        die
-        return
+      if @state == :loading
+      elsif @state == :done_loading
+        @state = :playing
+      else
+			  if reached_end?
+          next_level
+			  end
+			  @map.update dt
+        @characters.each{ |c| c.update dt, @map }
+        @enemies.each{ |e| e.update dt, @map }
+        if collide_enemies?
+          die
+          return
+        end
+        # spawn_rain
+        @particle_manager.update dt
+			  @cam.move @player.position.x, @player.position.y
+        @cam.update dt
       end
-      # spawn_rain
-      @particle_manager.update dt
-			@cam.move @player.position.x, @player.position.y
-      @cam.update dt
 		end
 
     def collide_enemies?
@@ -94,26 +103,31 @@ module LD26
 
 		def draw
       clear()
-			@map.draw @cam
-			@cam.translate do
-        ##@logo.draw(0, 0, 0)
-        @particle_manager.draw
-        @enemies.each do |e|
-          e.draw
-        end
-        @characters.each do |c| 
-          c.draw 
-          red = LD26.color(255, 0 ,0 ,50)
-          window.draw_quad(
-            c.left, c.top, red,
-            c.right, c.top, red,
-            c.right, c.bottom, red,
-            c.left, c.bottom, red
-          )
-        end
-			end
-      @font.draw("Grounded: #{@player.grounded}", 16, 32, 0, 1.0, 1.0, Gosu::Color::BLACK)
-      #@filter.draw(0, 0, 0)
+      if @state == :loading
+        @font.draw("Loading...", WIDTH / 2.0, HEIGHT / 2.0, 0, 1.0, 1.0, Gosu::Color::BLACK)
+      elsif @state == :done_loading
+      else
+			  @map.draw @cam
+			  @cam.translate do
+          ##@logo.draw(0, 0, 0)
+          @particle_manager.draw
+          @enemies.each do |e|
+            e.draw
+          end
+          @characters.each do |c| 
+            c.draw 
+            #red = LD26.color(255, 0 ,0 ,50)
+            #window.draw_quad(
+            #  c.left, c.top, red,
+            #  c.right, c.top, red,
+            #  c.right, c.bottom, red,
+            #  c.left, c.bottom, red
+            #)
+          end
+			  end
+        #@font.draw("Grounded: #{@player.grounded}", 16, 32, 0, 1.0, 1.0, Gosu::Color::BLACK)
+        #@filter.draw(0, 0, 0)
+      end
 		end
 
     def clear
