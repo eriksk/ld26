@@ -20,8 +20,9 @@ module LD26
 			@position.y = LD26.lerp(@position.y, @target.y, @speed)
 		end
 
-		def translate &render_code
-			@window.translate((@position.x + @origin.x).to_i, (@position.y + @origin.y).to_i) do
+		def translate parallax = 1.0, &render_code
+      parallax = 1.0 if parallax == nil
+			@window.translate(((@position.x + @origin.x) * parallax).to_i, ((@position.y + @origin.y) * parallax).to_i) do
   			@window.scale(@scale, @scale, @origin.x, @origin.y) do
 	 				@window.rotate(@rotation.to_degrees, @origin.x, @origin.y) do
 						render_code.call()

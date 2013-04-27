@@ -1,5 +1,6 @@
 module Tmx
 	class Layer 
+    attr_reader :parallax
 		def initialize data, width, height, name, opacity, properties
 			@data = data
 			@width = width
@@ -9,6 +10,8 @@ module Tmx
 			@properties = properties
 			@color = LD26.color(255, 255, 255, (255.0 * opacity).to_i)
 			@pre_rendered_image = nil
+      @parallax = nil
+      @parallax = properties["parallax"].to_f if properties && properties["parallax"] 
 		end
 
 		def pre_render window, images, tile_width, tile_height
@@ -23,6 +26,13 @@ module Tmx
 					end
 				end
 		end
+
+    def get_cell col, row
+      if col > -1 && col < @width && row > -1 && row < @height
+        return @data[col + row * @width]
+      end
+      -1
+    end
 
 		def update dt
 		end

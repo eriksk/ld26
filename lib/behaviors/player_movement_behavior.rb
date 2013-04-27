@@ -11,6 +11,13 @@ module LD26
       if @window.button_down?(Gosu::KbRight) 
         entity.walk(:right, dt)
       end
+
+      if entity.grounded
+        if @window.button_down?(Gosu::KbUp)
+          entity.jump dt
+        end
+      else
+      end
     end
   end
 end

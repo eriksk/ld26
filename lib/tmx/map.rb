@@ -1,6 +1,6 @@
 module Tmx
 	class Map
-		attr_accessor :images
+		attr_accessor :images, :layers
 		def initialize window, layers, width, height, properties, tileset, tile_width, tile_height
 			@layers = layers
 			@width = width
@@ -15,9 +15,11 @@ module Tmx
 		def update dt
 		end
 
-		def draw 
+		def draw cam
 			@layers.each do |l|
-				l.draw
+        cam.translate l.parallax do
+				  l.draw
+        end
 			end
 		end
 	end
