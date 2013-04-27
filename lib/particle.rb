@@ -6,6 +6,8 @@ module LD26
 			@x, @y = 0, 0
 			@rotation = 0.0
 			@scale = 1.0
+      @vel_x = 0.0
+      @vel_y = 0.0
 			@origin_x = 0.5
 			@origin_y = 0.5
 			@color = LD26.color()

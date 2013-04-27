@@ -1,8 +1,7 @@
 module LD26
 	class ParticleManager
 		attr_accessor :count
-		def initialize window, images, capacity = 512
-			@window = window
+		def initialize images, capacity = 1024
 			@images = images
 			@particles = []
 			@capacity = capacity
@@ -23,7 +22,7 @@ module LD26
 				p.vel_x = (-0.5  + rand()) * power
 				p.vel_y = (-0.5  + rand()) * power
 				p.rotation = Math::atan2(p.vel_y, p.vel_x)
-				p.scale = 0.5 + rand() * 0.8
+				p.scale = 0.3 + rand() * 0.7
 			end
 		end
 
@@ -49,6 +48,7 @@ module LD26
 				p.x += p.vel_x * dt
 				p.y += p.vel_y * dt
 				p.current += dt
+        p.color.alpha = LD26.lerp(255, 0 , p.current / p.duration)
 				if p.current > p.duration
 					push i
 					i -= 1
@@ -60,7 +60,7 @@ module LD26
 		def draw
 			@count.times do |i|
 				p = @particles[i]
-				@images[p.source].draw(p.x, p.y, 0, p.rotation.to_degrees, p.origin_x, p.origin_y, p.scale, p.scale, p.color)
+				@images[p.source].draw_rot(p.x, p.y, 0, p.rotation.to_degrees, p.origin_x, p.origin_y, p.scale, p.scale, p.color)
 			end
 		end
 	end
