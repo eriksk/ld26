@@ -32,6 +32,7 @@ end
 
 req "json_parser"
 req "vec2"
+req "rectangle"
 req "camera"
 req "helpers"
 req "animation"

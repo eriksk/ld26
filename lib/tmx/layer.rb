@@ -16,7 +16,7 @@ module Tmx
       width.times do |i|
         @touches << []
         height.times do |j|
-          @touches[i] << nil
+          @touches[i] << LD26::Touch.new
         end
       end
       @images = nil
@@ -42,8 +42,12 @@ module Tmx
           (-4..3).each do |i|
             (-4..3).each do |j|
               if col + i > -1 && col + i < @width && row + j > -1 && row + j < @height
-                if @touches[col + i][row + j] == nil
-                  @touches[col + i][row + j] = 0.0
+                touch = @touches[col + i][row + j]
+                if touch.state == :none
+                  touch.alpha = 0.0
+                  touch.state = :fade_in
+                elsif touch.state == :fade_out
+                  touch.alpha = 255
                 end
               end
             end
@@ -55,12 +59,24 @@ module Tmx
     end
 
 		def update dt
+      fade_in_speed = 0.1
+      fade_out_speed = 0.1
       @touches.size.times do |col|
         @touches[col].size.times do |row|
-          if @touches[col][row] && @touches[col][row] < 255
-            @touches[col][row] += 0.05 * dt
-            if @touches[col][row] > 255
-              @touches[col][row] = 255
+          touch = @touches[col][row]
+          case touch.state
+          when :none
+          when :fade_in
+            touch.alpha += fade_in_speed * dt
+            if touch.alpha > 255
+              touch.alpha = 255
+              touch.state = :fade_out
+            end
+          when :fade_out
+            touch.alpha -= fade_out_speed * dt
+            if touch.alpha < 0.0
+              touch.alpha = 0
+              touch.state = :none
             end
           end
         end
@@ -72,9 +88,10 @@ module Tmx
         color = LD26.color()
         @touches.size.times do |col|
           @touches[col].size.times do |row|
-            if @touches[col][row] != nil
+            touch = @touches[col][row]
+            if touch.state != :none
               cell = @data[col + row * @width] - 1
-              color.alpha = @touches[col][row]
+              color.alpha = touch.alpha
               @images[cell].draw(col * 16, row * 16, 0, 1.0, 1.0, color)
             end
           end

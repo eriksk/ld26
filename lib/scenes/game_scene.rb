@@ -5,8 +5,8 @@ module LD26
       @filter = window.load_image("filter")
 			@cam = Camera.new window
       @font = window.load_font 64
-      @current_level = 0
-      @last_level = 1
+      @current_level = 1
+      @last_level = 2
       next_level
 		end
 
@@ -103,16 +103,17 @@ module LD26
         end
         @characters.each do |c| 
           c.draw 
-          #red = LD26.color(255, 0 ,0 ,50)
-          #window.draw_quad(
-          #  c.left, c.top, red,
-          #  c.right, c.top, red,
-          #  c.right, c.bottom, red,
-          #  c.left, c.bottom, red
-          #)
+          red = LD26.color(255, 0 ,0 ,50)
+          window.draw_quad(
+            c.left, c.top, red,
+            c.right, c.top, red,
+            c.right, c.bottom, red,
+            c.left, c.bottom, red
+          )
         end
 			end
-      @filter.draw(0, 0, 0)
+      @font.draw("Grounded: #{@player.grounded}", 16, 32, 0, 1.0, 1.0, Gosu::Color::BLACK)
+      #@filter.draw(0, 0, 0)
 		end
 
     def clear

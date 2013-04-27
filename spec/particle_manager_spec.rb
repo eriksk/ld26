@@ -3,7 +3,7 @@ require_relative 'spec_helper'
 describe LD26::ParticleManager do
 
 	before(:each) do
-		@manager = LD26::ParticleManager.new nil, []
+		@manager = LD26::ParticleManager.new []
 	end
 
 	it "responds to count" do

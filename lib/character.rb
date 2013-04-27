@@ -77,72 +77,31 @@ module LD26
       end
     end
 
-    def collide dt, map
-      # x - collision
-      if collides_left? map
-        @velocity.x = 0.0
-        @position.x = ((@position.x / 16.0).to_i * 16.0) + 8.0
-      end
-      if collides_right? map
-        @velocity.x = 0.0
-        @position.x = ((@position.x / 16.0).to_i * 16.0) + 8.0
-      end
-
-      # y - collision
-      if @grounded
-        if !has_floor? map
-          fall_off()
-        end
-      else
-        if @velocity.y > 0.0
-          if has_floor? map
-            land()
-            @position.y = ((@position.y / 16.0).to_i * 16.0) + 8.0
-          end
-        else
-          if bump_head? map
-            fall_off()
-            @position.y = ((@position.y / 16.0).to_i * 16.0) + 8.0
-          end
-        end
-      end
+    def get_bounding
+      Rectangle.new(left.to_i, top.to_i, @image.width, @image.height)
     end
 
-    def collides_left? map
-      col = (left / 16.0).to_i
-      row = (@position.y / 16.0).to_i
-      cell = map.layers.first.get_cell col, row
-      cell > 1
-    end
-    def collides_right? map
-      col = (right / 16.0).to_i
-      row = (@position.y / 16.0).to_i
-      cell = map.layers.first.get_cell col, row
-      cell > 1
+    def collide_x dt, map
+      map.collide_x self
     end
 
-    def has_floor? map
-      col = (@position.x / 16.0).to_i
-      row = (bottom / 16.0).to_i
-      cell = map.layers.first.get_cell col, row
-      cell > 1
-    end
-
-    def bump_head? map
-      col = (@position.x / 16.0).to_i
-      row = (top / 16.0).to_i
-      cell = map.layers.first.get_cell col, row
-      cell > 1
+    def collide_y dt, map
+      map.collide_y self
     end
 
     def update dt, map
-      @behaviors.each{ |b| b.update dt, self }
       @velocity.x = LD26.clamp(@velocity.x, -@max_speed, @max_speed)
-      @position.x += @velocity.x * dt
-      @position.y += @velocity.y * dt
       apply_friction(dt)
-      collide(dt, map)
+
+      @position.x += @velocity.x * dt
+      collide_x(dt, map)
+      
       apply_gravity dt
+      @position.y += @velocity.y * dt
+      collide_y(dt, map)
+
+      @behaviors.each{ |b| b.update dt, self }
+
       if @velocity.x > 0.0 || @velocity.x < 0.0
         set_anim :walk
       else
