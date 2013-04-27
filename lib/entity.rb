@@ -1,6 +1,6 @@
 module LD26
 	class Entity
-		attr_accessor :image, :position, :origin, :velocity, :rotation, :scale, :color
+		attr_accessor :image, :position, :origin, :velocity, :rotation, :scale, :color, :flipped
 
 		def initialize image
 			@image = image
@@ -11,10 +11,11 @@ module LD26
 			@scale = 1.0
 			@color = LD26.color()
 			@behaviors = []
+      @flipped = false
 		end
 
 		def add_behavior behavior
-			behaviors << behavior
+			@behaviors << behavior
 			self
 		end
 
@@ -29,10 +30,17 @@ module LD26
 		end
 
 		def update dt
+      @behaviors.each do |b|
+        b.update dt, self
+      end
 		end
 
 		def draw
-			@image.draw_rot(@position.x, @position.y, 0, @rotation.to_degrees, @origin.x, @origin.y, @scale, @scale, @color)
+      if flipped
+			  @image.draw_rot(@position.x, @position.y, 0, @rotation.to_degrees, @origin.x, @origin.y, -@scale, @scale, @color)
+      else
+			  @image.draw_rot(@position.x, @position.y, 0, @rotation.to_degrees, @origin.x, @origin.y, @scale, @scale, @color)
+      end
 		end
 	end
 end

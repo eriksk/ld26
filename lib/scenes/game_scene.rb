@@ -2,35 +2,42 @@ module LD26
 	class GameScene < Scene
 		def initialize game
 			super game
-			@map = Tmx::Loader.load "test", game.window
+			#@map = Tmx::Loader.load "test", game.window
+      @logo = window.load_image('ld_logo')
 			@cam = Camera.new window
-			@pixel = Vec2.new WIDTH / 2.0, HEIGHT / 2.0
-			@timer = 0
+      @font = window.load_font 64
+      @player = CharacterFactory.create(window, :player)
+        .set_position(WIDTH / 2.0, HEIGHT / 2.0)
+      @characters = []
+      @characters << @player
 		end
 
 		def update dt
-			if window.button_down? Gosu::KbSpace
+			if window.button_down? Gosu::KbEnter
 				@game.pop_scene
 			end
-			@map.update dt
-			@cam.move @pixel.x, @pixel.y
-			@cam.update dt
-			
-			@timer += dt
-			@pixel.x = (WIDTH / 2.0) + Math::cos(@timer * 0.001) * 300
-			@pixel.y = (HEIGHT / 2.0) + Math::sin(@timer * 0.001) * 300
-			@cam.scale = 1.0 + Math::cos(@timer * 0.001)
-			@cam.rotation += 0.001 * dt
+			#@map.update dt
+      @characters.each{ |c| c.update dt }
+			@cam.move @player.position.x, @player.position.y
+      @cam.update dt
 		end
 
 		def draw
+      clear()
 			@cam.translate do
-				@map.draw
+				#@map.draw
+        @logo.draw(0, 0, 0)
+        @characters.each{ |c| c.draw }
 			end
-				window.draw_line(
-					WIDTH / 2.0, HEIGHT / 2.0, Gosu::Color::BLACK,
-					@pixel.x , @pixel.y, Gosu::Color::RED
-				)
 		end
+
+    def clear
+      window.draw_quad(
+        0, 0, Gosu::Color::WHITE,
+        WIDTH, 0, Gosu::Color::WHITE,
+        WIDTH, HEIGHT, Gosu::Color::GRAY,
+        0, HEIGHT, Gosu::Color::WHITE
+      )
+    end
 	end
 end

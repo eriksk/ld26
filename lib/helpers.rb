@@ -32,6 +32,15 @@ module LD26
 	end
 result
 end
+
+  def self.clamp(value, min, max)
+    if value < min
+      return min
+    elsif value > max
+      return max
+    end
+    value
+  end
 	
 end
 
