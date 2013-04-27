@@ -29,6 +29,23 @@ module LD26
 			self
 		end
 
+    def left
+      @position.x - @image.width / 2.0
+    end
+    def right
+      @position.x + @image.width / 2.0
+    end
+    def top
+      @position.y - @image.height / 2.0
+    end
+    def bottom
+      @position.y + @image.height / 2.0
+    end
+
+    def collides_with? other
+      Vec2.distance(@position, other.position) < 8
+    end
+
 		def update dt
       @behaviors.each do |b|
         b.update dt, self

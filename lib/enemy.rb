@@ -8,14 +8,6 @@ module LD26
       @speed = 0.05
     end
 
-    def left
-      @position.x - @image.width / 2.0
-    end
-
-    def right
-      @position.x + @image.width / 2.0
-    end
-
     def update dt, map
       col = nil
       if @flipped

@@ -24,20 +24,7 @@ module LD26
         @animations[@current_anim].reset()
       end
     end
-
-    def left
-      @position.x - @image.width / 2.0
-    end
-    def right
-      @position.x + @image.width / 2.0
-    end
-    def top
-      @position.y - @image.height / 2.0
-    end
-    def bottom
-      @position.y + @image.height / 2.0
-    end
-
+    
     def walk direction, dt
       case direction
       when :left

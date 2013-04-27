@@ -2,10 +2,32 @@ module LD26
 	class GameScene < Scene
 		def initialize game
 			super game
-			@map = Tmx::Loader.load "map_1", game.window
       @filter = window.load_image("filter")
 			@cam = Camera.new window
       @font = window.load_font 64
+      @current_level = 0
+      @last_level = 1
+      next_level
+		end
+
+    def reached_end?
+      x = (@player.position.x / 16.0).to_i
+      y = (@player.position.y / 16.0).to_i
+      @end.x == x && @end.y == y
+    end
+
+    def next_level
+      @current_level += 1
+      unless @current_level > @last_level
+        load_level
+      else
+        @game.pop_scene
+        @game.push_scene SplashScene.new @game
+      end
+    end
+
+    def load_level
+			@map = Tmx::Loader.load "map_#{@current_level}", game.window
       @start_pos = @map.get_start
       @player = CharacterFactory.create(window, :player)
         .set_position(@start_pos.x, @start_pos.y)
@@ -27,26 +49,38 @@ module LD26
       end
       @map.clear_enemy_data
       @map.pre_render window
-		end
+      @cam.set @player.position.x, @player.position.y
+    end
 
-    def reached_end?
-      x = (@player.position.x / 16.0).to_i
-      y = (@player.position.y / 16.0).to_i
-      @end.x == x && @end.y == y
+    def die
+      load_level
     end
 
 		def update dt
 			if reached_end?
-				@game.pop_scene
+        next_level
 			end
 			@map.update dt
       @characters.each{ |c| c.update dt, @map }
       @enemies.each{ |e| e.update dt, @map }
+      if collide_enemies?
+        die
+        return
+      end
       # spawn_rain
       @particle_manager.update dt
 			@cam.move @player.position.x, @player.position.y
       @cam.update dt
 		end
+
+    def collide_enemies?
+      @enemies.each do |e|
+        if e.collides_with?(@player)
+          return true
+        end
+      end
+      false
+    end
 
     def spawn_rain
       p = @particle_manager.pop()

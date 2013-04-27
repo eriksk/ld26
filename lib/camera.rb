@@ -15,6 +15,11 @@ module LD26
 			@target.x, @target.y = -x, -y
 		end
 
+    def set x, y
+			@position.x, @position.y = -x, -y
+			@target.x, @target.y = -x, -y
+    end
+
 		def update dt
 			@position.x = LD26.lerp(@position.x, @target.x, @speed)
 			@position.y = LD26.lerp(@position.y, @target.y, @speed)
