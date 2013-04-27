@@ -33,7 +33,9 @@ module LD26
 		def button_down(id)
 			case id
 			when Gosu::KbEscape
-				self.close
+        if DEBUG
+				  self.close
+        end
 			end
 		end
 

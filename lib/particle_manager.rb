@@ -19,9 +19,9 @@ module LD26
 				p.duration = 500 + rand() * 3000
 				p.x = x
 				p.y = y
-				p.vel_x = (-0.5  + rand()) * power
-				p.vel_y = (-0.5  + rand()) * power
-				p.rotation = Math::atan2(p.vel_y, p.vel_x)
+        p.rotation = rand() * 10.0
+				p.vel_x = Math::cos(p.rotation) * power
+				p.vel_y = Math::sin(p.rotation) * power
 				p.scale = 0.3 + rand() * 0.7
 			end
 		end
@@ -45,8 +45,8 @@ module LD26
 			i = 0
 			while i < @count
 				p = @particles[i]
-				p.x += p.vel_x * dt
-				p.y += p.vel_y * dt
+				p.x += LD26.lerp(p.vel_x, 0.0, p.current / p.duration)
+				p.y += LD26.lerp(p.vel_y, 0.0, p.current / p.duration)
 				p.current += dt
         p.color.alpha = LD26.lerp(255, 0 , p.current / p.duration)
 				if p.current > p.duration

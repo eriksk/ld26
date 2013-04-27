@@ -25,6 +25,14 @@ module Tmx
       end
     end
 
+    def fade_in_all
+        @width.times do |col|
+          @height.times do |row|
+           get_cell col, row
+          end
+        end
+    end
+
     def get_start
       x, y = @properties["start"].split(":")
       x = x.to_i * @tile_width

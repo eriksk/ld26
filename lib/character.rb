@@ -10,7 +10,8 @@ module LD26
       @images = images
       @animations = {
         :idle => Animation.new([0, 1], 500),
-        :walk => Animation.new([4, 5], 120)
+        :walk => Animation.new([4, 5], 120),
+        :in_air => Animation.new([1], 500)
       }
       @grounded = false
       @speed = 0.05
@@ -102,10 +103,14 @@ module LD26
 
       @behaviors.each{ |b| b.update dt, self }
 
-      if @velocity.x > 0.0 || @velocity.x < 0.0
-        set_anim :walk
+      if @grounded
+        if @velocity.x > 0.0 || @velocity.x < 0.0
+          set_anim :walk
+        else
+          set_anim :idle
+        end
       else
-        set_anim :idle
+        set_anim :in_air
       end
       current_anim.update dt
       @image =  @images[current_anim.frame]

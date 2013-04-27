@@ -3,14 +3,14 @@ module LD26
 		def initialize game
 			super game
       @filter = window.load_image("filter")
+      @filter_color = LD26.color(255, 255, 255, 100)
 			@cam = Camera.new window
       @audio_manager = AudioManager.new window
       @audio_manager.play
-      @fade_color = LD26.color()
       @font = window.load_font 64
       @state = :loading
-      @current_level = 0
-      @last_level = 3
+      @current_level = 4
+      @last_level = 5
       next_level
 		end
 
@@ -33,6 +33,7 @@ module LD26
 
     def load_level
       @map = Tmx::Loader.load "map_#{@current_level}", game.window
+      @fade_color = LD26.color()
       @intro_text = Text.new(window, 64, @map.properties["name"])
         .set_position(WIDTH / 2.0, HEIGHT * 0.5)
       @intro_text.color = LD26.color(0, 0, 0, 255)
@@ -64,6 +65,7 @@ module LD26
     end
 
     def die
+      @particle_manager.spawn_explosion(@player.position.x, @player.position.y, 256)
       @player.set_position(@start_pos.x, @start_pos.y)
       @player.velocity.x = 0.0
       @player.velocity.y = 0.0
@@ -86,10 +88,17 @@ module LD26
       if @state == :loading
       elsif @state == :done_loading
         @state = :playing
+      elsif @state == :fade_out
+        @fade_color.alpha += 0.2 * dt
+        if @fade_color.alpha >= 255
+          next_level
+        end
       else
 			  if reached_end?
-          next_level
+          @state = :fade_out
+          @fade_color.alpha = 0.0
 			  end
+        
 			  @map.update dt
         @characters.each{ |c| c.update dt, @map }
         @enemies.each{ |e| e.update dt, @map }
@@ -164,7 +173,7 @@ module LD26
           @intro_text.color.alpha = LD26.qlerp(255, 0, (3000.0 - @intro_duration) / 3000.0)
           @intro_text.draw
         end
-        @filter.draw(0, 0, 0)
+        @filter.draw(0, 0, 0, 1.0, 1.0, @filter_color)
       end
 		end
 
