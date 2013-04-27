@@ -9,7 +9,7 @@ module LD26
       @audio_manager.play
       @font = window.load_font 64
       @state = :loading
-      @current_level = 4
+      @current_level = 0
       @last_level = 5
       next_level
 		end
