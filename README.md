@@ -14,6 +14,14 @@ Tested with Ruby (MRI) 1.9.3
 $ ./run
 </pre>
 
+## Ideas
+
+1. Black Character in white surrounding 
+  Some way to see surrounding stuff... traps? death?
+  Puzzles
+
+2. 
+
 ## Language
 * ruby
 
