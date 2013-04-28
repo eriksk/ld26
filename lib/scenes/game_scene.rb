@@ -10,8 +10,8 @@ module LD26
       @audio_manager.play
       @font = window.load_font 64
       @state = :loading
-      @current_level = 7
-      @last_level = 8
+      @current_level = 0
+      @last_level = 1
       next_level
 		end
 
@@ -134,6 +134,9 @@ module LD26
       elsif @state == :fade_out
         @fade_color.alpha += 0.2 * dt
         @fade_color_bottom.alpha += 0.2 * dt
+        if @current_level == @last_level
+          @audio_manager.set_volume LD26.lerp(1.0, 0.0, @fade_color.alpha / 255.0)
+        end
         if @fade_color.alpha >= 255
           next_level
         end
