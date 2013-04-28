@@ -1,5 +1,6 @@
 module LD26
 	class GameScene < Scene
+    INTRO_DURATION = 3000.0
 		def initialize game
 			super game
       @filter = window.load_image("filter")
@@ -9,8 +10,8 @@ module LD26
       @audio_manager.play
       @font = window.load_font 64
       @state = :loading
-      @current_level = 0
-      @last_level = 5
+      @current_level = 3
+      @last_level = 4
       next_level
 		end
 
@@ -28,6 +29,7 @@ module LD26
       else
         @audio_manager.stop
         @game.pop_scene
+        @game.push_scene GameOverScene.new @game
       end
     end
 
@@ -35,9 +37,9 @@ module LD26
       @map = Tmx::Loader.load "map_#{@current_level}", game.window
       @fade_color = LD26.color()
       @fade_color_bottom = LD26.color(Gosu::Color::GRAY.red, Gosu::Color::GRAY.green, Gosu::Color::GRAY.blue)
-      @intro_text = Text.new(window, 64, @map.properties["name"])
+      @intro_text = Text.new(window, 48, @map.properties["name"])
         .set_position(WIDTH / 2.0, HEIGHT * 0.5)
-      @intro_duration = 3000
+      @intro_duration = INTRO_DURATION
       @start_pos = @map.get_start
       @player = CharacterFactory.create(window, :player)
         .set_position(@start_pos.x, @start_pos.y)
@@ -172,7 +174,13 @@ module LD26
           0, HEIGHT, @fade_color_bottom
         )
         if @intro_duration >= 0.0
-          @intro_text.color.alpha = LD26.qlerp(255, 0, (3000.0 - @intro_duration) / 3000.0)
+          if @intro_duration > INTRO_DURATION / 2.0
+            progress = ((INTRO_DURATION - @intro_duration) / INTRO_DURATION * 2)
+            @intro_text.color.alpha = LD26.qlerp(0, 255, progress)
+          else
+            progress = ((INTRO_DURATION - @intro_duration) / INTRO_DURATION * 2)
+            @intro_text.color.alpha = LD26.qlerp(255, 0, progress - 1.0)
+          end
           @intro_text.draw
         end
       end
