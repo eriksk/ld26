@@ -22,7 +22,7 @@ module LD26
 	HEIGHT = 720
 	FULLSCREEN = false
 	TITLE = "Ludum Dare 26 (Skoggy)"
-  DEBUG = true
+  DEBUG = false 
 	CONTENT_ROOT = "#{File.dirname(__FILE__)}/content"
   FONT_NAME = "cookie"
   TEXT_COLOR = LD26.color(50, 50, 50, 255)
