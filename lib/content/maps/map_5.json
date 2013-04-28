@@ -48,9 +48,9 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "end":"50:50",
+     "end":"43:52",
      "name":"Orchard",
-     "start":"4:31"
+     "start":"4:53"
     },
  "tileheight":16,
  "tilesets":[

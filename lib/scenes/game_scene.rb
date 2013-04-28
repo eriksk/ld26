@@ -10,8 +10,8 @@ module LD26
       @audio_manager.play
       @font = window.load_font 64
       @state = :loading
-      @current_level = 0
-      @last_level = 4
+      @current_level = 7
+      @last_level = 8
       next_level
 		end
 
@@ -118,7 +118,7 @@ module LD26
             die
           end
         else
-          if (e.position.x - @player.position.x).abs < 32
+          if (e.position.x - @player.position.x).abs < 32 && e.position.y < @player.position.y
             e.fall
             @particle_manager.spawn_explosion(e.position.x, e.top, 6, 0.3)
           end
