@@ -51,6 +51,7 @@ module LD26
       @particle_manager = ParticleManager.new window.load_tiles("particles", 8, 8)
       @enemies = []
       @spikes = []
+      @spike_data = []
       l = @map.layers.first
       @map.width.times do |col|
         @map.height.times do |row|
@@ -59,6 +60,10 @@ module LD26
             @enemies << CharacterFactory.create(window, :enemy)
               .set_position((col * @map.tile_width) + 8, (row * @map.tile_height) + 8)
           elsif cell == 33
+            @spike_data << {
+              :col => col,
+              :row => row
+            }
             @spikes << Spike.new(window)
               .set_position((col * @map.tile_width) + 8, (row * @map.tile_height) + 8)
           end
@@ -76,6 +81,14 @@ module LD26
       @player.velocity.x = 0.0
       @player.velocity.y = 0.0
       @player.grounded = false
+      # reload spikes
+      @spikes = []
+      @spike_data.each do |hash|
+        spike = Spike.new(window)
+          .set_position((hash[:col] * @map.tile_width) + 8, (hash[:row] * @map.tile_height) + 8)
+        spike.color.alpha = 0
+        @spikes << spike
+      end
     end
 
     def fade_enemies
@@ -101,13 +114,15 @@ module LD26
         end
         if e.falling
           e.update dt
+          if distance < 8
+            die
+          end
         else
           if (e.position.x - @player.position.x).abs < 32
             e.fall
             @particle_manager.spawn_explosion(e.position.x, e.top, 6, 0.3)
           end
         end
-        # TODO: collision
       end
       @spikes.delete_if{ |s| s.falling && s.position.y > @map.height * 16 }
     end
