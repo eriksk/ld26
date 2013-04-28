@@ -27,7 +27,7 @@ module LD26
     end
 
 		def load_font size
-			Gosu::Font.new self, "#{CONTENT_ROOT}/fonts/font.ttf", size
+			Gosu::Font.new self, "#{CONTENT_ROOT}/fonts/#{FONT_NAME}.ttf", size
 		end
 
 		def button_down(id)

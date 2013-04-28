@@ -34,9 +34,9 @@ module LD26
     def load_level
       @map = Tmx::Loader.load "map_#{@current_level}", game.window
       @fade_color = LD26.color()
+      @fade_color_bottom = LD26.color(Gosu::Color::GRAY.red, Gosu::Color::GRAY.green, Gosu::Color::GRAY.blue)
       @intro_text = Text.new(window, 64, @map.properties["name"])
         .set_position(WIDTH / 2.0, HEIGHT * 0.5)
-      @intro_text.color = LD26.color(0, 0, 0, 255)
       @intro_duration = 3000
       @start_pos = @map.get_start
       @player = CharacterFactory.create(window, :player)
@@ -90,6 +90,7 @@ module LD26
         @state = :playing
       elsif @state == :fade_out
         @fade_color.alpha += 0.2 * dt
+        @fade_color_bottom.alpha += 0.2 * dt
         if @fade_color.alpha >= 255
           next_level
         end
@@ -162,18 +163,18 @@ module LD26
             #)
           end
 			  end
-        #@font.draw("Grounded: #{@player.grounded}", 16, 32, 0, 1.0, 1.0, Gosu::Color::BLACK)
+        
+        @filter.draw(0, 0, 0, 1.0, 1.0, @filter_color)
         window.draw_quad(
           0, 0, @fade_color,
           WIDTH, 0, @fade_color,
-          WIDTH, HEIGHT, @fade_color,
-          0, HEIGHT, @fade_color
+          WIDTH, HEIGHT, @fade_color_bottom,
+          0, HEIGHT, @fade_color_bottom
         )
         if @intro_duration >= 0.0
           @intro_text.color.alpha = LD26.qlerp(255, 0, (3000.0 - @intro_duration) / 3000.0)
           @intro_text.draw
         end
-        @filter.draw(0, 0, 0, 1.0, 1.0, @filter_color)
       end
 		end
 
@@ -182,7 +183,7 @@ module LD26
         0, 0, Gosu::Color::WHITE,
         WIDTH, 0, Gosu::Color::WHITE,
         WIDTH, HEIGHT, Gosu::Color::GRAY,
-        0, HEIGHT, Gosu::Color::WHITE
+        0, HEIGHT, Gosu::Color::GRAY
       )
     end
 	end

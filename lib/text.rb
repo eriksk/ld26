@@ -4,6 +4,7 @@ module LD26
 			super nil
 			@text = text
 			@font = window.load_font size
+      @color = LD26.color(TEXT_COLOR.red, TEXT_COLOR.green, TEXT_COLOR.blue)
 		end
 
 		def update dt
