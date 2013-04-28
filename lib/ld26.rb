@@ -15,7 +15,7 @@ module LD26
 		end
 
     def load_song name
-      Gosu::Song.new self, "#{CONTENT_ROOT}/audio/#{name}.wav"
+      Gosu::Song.new self, "#{CONTENT_ROOT}/audio/#{name}.ogg"
     end
 
     def load_image name
