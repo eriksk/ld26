@@ -3,7 +3,7 @@ require 'bundler/setup' # Releasy requires require that your application uses bu
 require 'releasy'
 
 Releasy::Project.new do
-  name "Ludum Dare 26"
+  name "Wither"
 	version "0.0.1"
   #verbose # Can be removed if you don't want to see all build messages.
 
@@ -17,7 +17,7 @@ Releasy::Project.new do
 	add_build :osx_app do
 		url "se.skoggy.ld26"
 		wrapper "wrappers/gosu-mac-wrapper-0.7.44.tar.gz" # Assuming this is where you downloaded this file.
-		#icon "media/icon.icns"
+		icon "lib/content/icon.icns"
 		add_package :tar_gz
 	end
 	
@@ -27,13 +27,13 @@ Releasy::Project.new do
 	
 	# If building on a Windows machine, :windows_folder and/or :windows_installer are recommended.
 	add_build :windows_folder do
-		#icon "content/icon.ico"
+		#icon "lib/content/icon.icns"
 		executable_type :windows # Assuming you don't want it to run with a console window.
 		add_package :exe # Windows self-extracting archive.
 	end
 
 	add_build :windows_installer do
-		#icon "content/icon.ico"
+		#icon "lib/content/icon.icns"
 		start_menu_group "Skoggy"
 		readme "README.md" # User asked if they want to view readme after install.
 		license "LICENSE.txt" # User asked to read this and confirm before installing.

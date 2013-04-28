@@ -11,7 +11,7 @@ module LD26
       @animations = {
         :idle => Animation.new([0, 1], 500),
         :walk => Animation.new([4, 5], 120),
-        :in_air => Animation.new([1], 500)
+        :in_air => Animation.new([9, 1], 400)
       }
       @grounded = false
       @speed = 0.05

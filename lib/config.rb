@@ -21,7 +21,7 @@ module LD26
 	WIDTH = 1280
 	HEIGHT = 720
 	FULLSCREEN = false
-	TITLE = "Ludum Dare 26 (Skoggy)"
+	TITLE = "Wither"
   DEBUG = false 
 	CONTENT_ROOT = "#{File.dirname(__FILE__)}/content"
   FONT_NAME = "cookie"
