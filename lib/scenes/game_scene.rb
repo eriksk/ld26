@@ -10,7 +10,7 @@ module LD26
       @audio_manager.play
       @font = window.load_font 64
       @state = :loading
-      @current_level = 3
+      @current_level = 0
       @last_level = 4
       next_level
 		end
@@ -50,6 +50,7 @@ module LD26
       @characters << @player
       @particle_manager = ParticleManager.new window.load_tiles("particles", 8, 8)
       @enemies = []
+      @spikes = []
       l = @map.layers.first
       @map.width.times do |col|
         @map.height.times do |row|
@@ -57,10 +58,13 @@ module LD26
           if cell == 32
             @enemies << CharacterFactory.create(window, :enemy)
               .set_position((col * @map.tile_width) + 8, (row * @map.tile_height) + 8)
+          elsif cell == 33
+            @spikes << Spike.new(window)
+              .set_position((col * @map.tile_width) + 8, (row * @map.tile_height) + 8)
           end
         end
       end
-      @map.clear_enemy_data
+      @map.clear_data [32, 33]
       @map.pre_render window
       @cam.set @player.position.x, @player.position.y
       @state = :done_loading
@@ -86,6 +90,28 @@ module LD26
       end
     end
 
+    def update_spikes dt
+      min_distance = 196
+      @spikes.each do |e|
+        distance = Vec2.distance(@player.position, e.position)
+        if distance < min_distance
+          e.color.alpha = LD26.qlerp(255, 0, distance / min_distance)
+        else
+          e.color.alpha = 0.0
+        end
+        if e.falling
+          e.update dt
+        else
+          if (e.position.x - @player.position.x).abs < 32
+            e.fall
+            @particle_manager.spawn_explosion(e.position.x, e.top, 6, 0.3)
+          end
+        end
+        # TODO: collision
+      end
+      @spikes.delete_if{ |s| s.falling && s.position.y > @map.height * 16 }
+    end
+
 		def update dt
       if @state == :loading
       elsif @state == :done_loading
@@ -105,6 +131,7 @@ module LD26
 			  @map.update dt
         @characters.each{ |c| c.update dt, @map }
         @enemies.each{ |e| e.update dt, @map }
+        update_spikes(dt)
         fade_enemies()
         if collide_enemies?
           die
@@ -152,6 +179,9 @@ module LD26
           ##@logo.draw(0, 0, 0)
           @particle_manager.draw
           @enemies.each do |e|
+            e.draw
+          end
+          @spikes.each do |e|
             e.draw
           end
           @characters.each do |c| 

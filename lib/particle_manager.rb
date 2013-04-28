@@ -11,10 +11,10 @@ module LD26
 			@count = 0
 		end
 
-		def spawn_explosion x, y, count = 24
+		def spawn_explosion x, y, count = 24, pwr = 1.0
 			power = 0.0
 			count.times do |i|
-				power = 0.5 + rand()
+				power = (0.5 + rand()) * pwr
 				p = pop()
 				p.duration = 500 + rand() * 3000
 				p.x = x

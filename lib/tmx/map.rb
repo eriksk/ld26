@@ -15,11 +15,13 @@ module Tmx
 			@layers.each{ |l| l.pre_render window, @tileset.first, @tile_width, @tile_height }
     end
 
-    def clear_enemy_data
+    def clear_data cells = []
       @layers.each do |l|
         l.data.size.times do |i|
-          if l.data[i] -1 == 32
-            l.data[i] = 0
+          cells.each do |cell|
+            if l.data[i] -1 == cell
+              l.data[i] = 0
+            end
           end
         end
       end
