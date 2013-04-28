@@ -11,7 +11,7 @@ module LD26
       @font = window.load_font 64
       @state = :loading
       @current_level = 0
-      @last_level = 1
+      @last_level = 8
       next_level
 		end
 
